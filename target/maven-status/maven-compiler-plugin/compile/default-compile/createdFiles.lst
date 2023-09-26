@@ -1,0 +1,7 @@
+com\baidu\controller\PokemenController.class
+com\baidu\mapper\PokemenMapper.class
+com\baidu\service\PokemenService.class
+com\baidu\pojo\Attributes.class
+com\baidu\pojo\Pokemen.class
+com\baidu\pojo\QeVo.class
+com\baidu\service\PokemenServiceImpl.class

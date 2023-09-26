@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baidu.mapper.PokemenMapper">
+    <select id="findAttributes" resultType="Attributes">
+        select * from attributes
+    </select>
+
+    <select id="findPokemensById" resultType="Pokemen">
+        select * from pokemen where id = #{value}
+    </select>
+
+    <select id="findPokemensPage" parameterType="QeVo" resultType="Pokemen">
+        select * from pokemen
+        <where>
+            <if test="number!=null and number!='' ">
+                and number =#{number}
+            </if>
+            <if test=" name!=null and name!='' ">
+                and name like concat('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="findAttributesById" resultType="Attributes">
+        select a.* from attributes a,pokemen p,panda pa
+        where a.id = pa.aid and p.id = pa.pid and p.id = #{value}
+    </select>
+
+    <insert id="addPokemen" parameterType="Pokemen" useGeneratedKeys="true" keyProperty="id">
+        insert into pokemen(id,number,name,ss,url,stature,weight,characteristic)
+        values (#{id},#{number},#{name},#{ss},#{url},#{stature},#{weight},#{characteristic})
+    </insert>
+
+    <insert id="addPokemenAttrs" parameterType="map">
+        insert into panda(pid,aid) values
+        <foreach collection="attrss" item="aid" separator=",">
+            (#{pid},#{aid})
+        </foreach>
+    </insert>
+
+    <update id="updatePokemen" parameterType="Pokemen">
+        update pokemen set number=#{number},name=#{name},ss=#{ss},url=#{url},stature=#{stature},weight=#{weight},characteristic=#{characteristic} where id=#{id}
+    </update>
+
+    <delete id="deletePokemen">
+        delete from pokemen where id=#{value}
+    </delete>
+
+    <delete id="deletePokemenAttrs">
+        delete from panda where pid=#{value}
+    </delete>
+
+    <select id="findPokemens" resultType="Pokemen">
+        select * from pokemen
+    </select>
+
+    <insert id="addPokemens" parameterType="Pokemen">
+        insert into pokemen(number,name,ss,url,stature,weight,characteristic) values
+        <foreach collection="list" item="p" separator=",">
+            (#{p.number},#{p.name},#{p.ss},#{p.url},#{p.stature},#{p.weight},#{p.characteristic})
+        </foreach>
+    </insert>
+
+</mapper>
